@@ -1,0 +1,84 @@
+{
+  "name": "Reports Dashboard",
+  "tt_name": "module_name",
+  "description": "Adds a project page that shows reports chosen by project designers (or every report in the project) as cards with row counts and optional previews. A card shows its report's title, and a link to the report's REDCap page, only after REDCap has run the report for the viewer. Each user's counts are stored for that user only and shown again until they refresh them. Each report is run through REDCap's report export as the current user, so REDCap applies that user's report access, export, de-identification and Data Access Group rights, and records each count and preview in the project's logging as a data export. Users can drag cards into their own order. The module makes no outbound network calls and writes no record data.",
+  "tt_description": "module_description",
+  "namespace": "DARTNet\\ReportsDashboard",
+  "framework-version": 17,
+  "documentation": "README.md",
+  "authors": [
+    {
+      "name": "Ernest Lennox",
+      "email": "lennox_ej@dartnetinstitute.org",
+      "institution": "DARTNet Institute"
+    }
+  ],
+  "links": {
+    "project": [
+      {
+        "name": "Reports Dashboard",
+        "tt_name": "dashboard_link",
+        "icon": "fas fa-chart-bar",
+        "url": "pages/dashboard.php",
+        "show-header-and-footer": true
+      }
+    ]
+  },
+  "project-settings": [
+    {
+      "key": "allowed-roles",
+      "name": "Roles allowed to see the Reports Dashboard link<br><span style=\"font-weight:normal;font-size:11px;color:#666;\">Choose which user roles may see this module in the left-hand project menu and open its page. Leave empty to keep the default behavior, where only REDCap administrators and users with Project Design &amp; Setup rights can see it. Administrators and users with Design rights can always see it regardless of this setting. Users with rights assigned directly rather than through a role are not granted access by this setting.</span>",
+      "required": false,
+      "type": "user-role-list",
+      "repeatable": true
+    },
+    {
+      "key": "include-all-reports",
+      "name": "Show every report in this project<br><span style=\"font-weight:normal;font-size:11px;color:#666;\">When checked, the dashboard has a card for every report in the project and the list below is ignored. The module learns the project's reports each time someone opens this configuration, so after adding, renaming or deleting reports, open and close this dialog to update the dashboard.</span>",
+      "type": "checkbox"
+    },
+    {
+      "key": "dashboard-report-config",
+      "name": "Reports shown on the dashboard<br><span style=\"font-weight:normal;font-size:11px;color:#666;\">Used when <b>Show every report</b> is unchecked. Add one entry per report. Each card works only for users who can already open that report in REDCap; other users see a card saying they do not have access. A report's title appears on its card only after REDCap has run the report for the viewer.</span>",
+      "type": "sub_settings",
+      "repeatable": true,
+      "sub_settings": [
+        {
+          "key": "dashboard-reports",
+          "name": "Report",
+          "required": true,
+          "type": "report-list"
+        },
+        {
+          "key": "dashboard-report-label",
+          "name": "Card label<br><span style=\"font-weight:normal;font-size:11px;color:#666;\">Optional. Shown to every dashboard user straight away, including those who cannot open the report, so do not put anything here those users should not see. Left blank, the card shows the report's title once REDCap has run it for the viewer.</span>",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "key": "manual-counts",
+      "name": "Count reports only when asked<br><span style=\"font-weight:normal;font-size:11px;color:#666;\">Each user's counts are kept and shown again the next time they open the dashboard; any card that user has never counted is counted when the dashboard opens. Each count runs the whole report and adds a data-export entry to the project's logging. Check this box so new cards wait for the user to click Count instead.</span>",
+      "type": "checkbox"
+    },
+    {
+      "key": "count-cache-hours",
+      "name": "Keep each user's counts for (hours)<br><span style=\"font-weight:normal;font-size:11px;color:#666;\">Optional. Counts are stored for each user separately, because REDCap counts with that user's own rights. Leave blank to keep a count until the user clicks Refresh. Enter a number of hours (for example 24) to have older counts redone automatically; this also limits how long a user keeps seeing a count after their access to that report changes.</span>",
+      "type": "text"
+    },
+    {
+      "key": "hide-data-preview",
+      "name": "Turn off data previews<br><span style=\"font-weight:normal;font-size:11px;color:#666;\">By default, cards with rows offer a preview of the first rows, built with the viewer's own export and de-identification rights. Each preview adds a data-export entry to the project's logging. Check this box to remove previews; the server then refuses them too.</span>",
+      "type": "checkbox"
+    },
+    {
+      "key": "max-preview-rows",
+      "name": "Maximum preview rows<br><span style=\"font-weight:normal;font-size:11px;color:#666;\">Whole number from 1 to 100. Left blank, previews show 5 rows.</span>",
+      "type": "text"
+    }
+  ],
+  "compatibility": {
+    "php-version-min": "7.4.0",
+    "redcap-version-min": "17.0.1"
+  }
+}
